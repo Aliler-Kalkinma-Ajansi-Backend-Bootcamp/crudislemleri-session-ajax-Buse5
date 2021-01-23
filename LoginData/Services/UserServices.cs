@@ -58,11 +58,7 @@ namespace LoginData.Services
             }
             return result;
         }
-        //public object Kayit(int email, int password, int userName)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
+   
         public int Save(LoginData.Models.User data)
         {
             int result = 0;

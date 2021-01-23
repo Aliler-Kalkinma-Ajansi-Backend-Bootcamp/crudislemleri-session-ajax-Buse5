@@ -77,24 +77,38 @@ namespace Proje.Controllers
         public IActionResult Kayit(int? Id)
         {
             var result = new LoginData.Models.User();
-            if (Id.HasValue && Id > 0) 
+            if (Id.HasValue && Id > 0)
             {
                 LoginData.Services.UserServices services = new LoginData.Services.UserServices();
                 result = services.GetById(Id.Value);
             }
             return View(result);
-        }           
+        }
+        //[HttpPost]
+        //public IActionResult Kayit(LoginData.Models.User data)
+        //{
+        //    LoginData.Services.UserServices services = new LoginData.Services.UserServices();
+        //    var result = services.Save(data);
+        //    if (result>0)
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+
+        //    return View();
+        //}
         [HttpPost]
-        public IActionResult Kayit(LoginData.Models.User data)
+        public JsonResult Kayit(LoginData.Models.User data)
         {
             LoginData.Services.UserServices services = new LoginData.Services.UserServices();
             var result = services.Save(data);
-            if (result>0)
+            if (result > 0)
             {
-                return RedirectToAction("Index");
-            }
+                return Json("Kaydınız Başarıyla Gerçekleşti..");
 
-            return View();
+                //return RedirectToAction("Index", "Home");
+            }
+            return Json("İşlem Sırasında Bir Hata Oluştu..");
+            //return View();
         }
         public IActionResult Delete(int userId) 
         {
