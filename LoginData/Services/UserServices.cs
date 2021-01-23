@@ -29,15 +29,15 @@ namespace LoginData.Services
             }
                 return users;
         }
-        public bool Login(string email,string password) 
+        public int Login(string email,string password) 
         {
-            bool deger = false;
+            int deger = 0;
             using (var x=new Models.KampContext()) 
             {
                 var veri = x.Users.Where(y=>y.Email ==email&& y.Password==password).FirstOrDefault();
                 if (veri!=null && veri.Id>0) 
                 {
-                     deger = true;
+                     deger = veri.Id;
                 }
             }
                 return deger;
@@ -86,6 +86,20 @@ namespace LoginData.Services
             return result;
         }
 
-       
+        public object Delete(int userId)
+        {
+            bool result = false;
+            using (var srv = new KampContext())
+            {
+                var data = srv.Users.Find(userId);
+                if(data != null)
+                {
+                    srv.Users.Remove(data);
+                    result = true;
+                }
+                srv.SaveChanges();
+            }
+            return result;
+        }
     }
 }

@@ -23,6 +23,7 @@ namespace Proje
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession(x => x.IdleTimeout = TimeSpan.FromDays(1));
             services.AddControllersWithViews();
         }
 
@@ -43,12 +44,12 @@ namespace Proje
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();
-
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Login}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

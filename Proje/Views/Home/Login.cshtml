@@ -1,4 +1,4 @@
-﻿@model Proje.Models.Login
+﻿@model LoginData.Models.User
 
 @{
     ViewData["Title"] = "Login";
@@ -17,16 +17,16 @@
                         <form asp-action="Login" asp-controller="Home">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group">
-                                <label asp-for="userName" class="label">E-POSTA</label>
-                                <input asp-for="userName" class="input" />
-                                <span asp-validation-for="userName" class="text-danger"></span>
+                                <label asp-for="Email" class="label">E-POSTA</label>
+                                <input asp-for="Email" class="input" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                             <div class="group">
                             </div>
                             <div class="form-group">
-                                <label asp-for="password" class="label">ŞİFRE</label>
-                                <input asp-for="password" class="input" />
-                                <span asp-validation-for="password" class="text-danger"></span>
+                                <label asp-for="Password" class="label">ŞİFRE</label>
+                                <input asp-for="Password" class="input" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
                             <div class="group">
                             </div>

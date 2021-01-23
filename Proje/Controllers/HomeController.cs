@@ -1,6 +1,8 @@
 ﻿using LoginData.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Proje.Filters;
 using Proje.Models;
 using System;
 using System.Collections.Generic;
@@ -18,7 +20,7 @@ namespace Proje.Controllers
         {
             _logger = logger;
         }
-
+        [LoginAtribute]
         public IActionResult Index()
         {
             LoginData.Services.KampBilgiServices kampBilgiServices = new LoginData.Services.KampBilgiServices();
@@ -48,16 +50,29 @@ namespace Proje.Controllers
             return View("~/Views/Home/Login.cshtml"); 
         }
         [HttpPost]
-        public IActionResult Login(Models.Login data)
+        public IActionResult Login(LoginData.Models.User user)
         {
-            LoginData.Services.UserServices servis = new LoginData.Services.UserServices();
-            var result = servis.Login(data.userName, data.password);
-            if (result)
+            
+            bool SıgnIn = Giris(user);
+            if (SıgnIn == true)
             {
-                return View("~/Views/Home/Index.cshtml");
-            }
-            return View("~/Views/Home/Login.cshtml");
+                return RedirectToAction("Index", "Home");
+            }           
+            return View();
 
+        }
+        public bool Giris(LoginData.Models.User user) 
+        {
+            bool result = false;
+            LoginData.Services.UserServices servis = new LoginData.Services.UserServices();
+           
+            var deneme = servis.Login(user.Email, user.Password);
+            HttpContext.Session.SetString("Id", deneme.ToString());
+            if (deneme>0)
+            {
+                result = true;
+            }
+            return result;
         }
         public IActionResult Kayit(int? Id)
         {
@@ -80,6 +95,20 @@ namespace Proje.Controllers
             }
 
             return View();
+        }
+        public IActionResult Delete(int userId) 
+        {
+            if (userId >0)
+                {
+                LoginData.Services.UserServices services = new LoginData.Services.UserServices();
+                var result = services.Delete(userId);
+                if ((bool)result) {
+                    return RedirectToAction("Login");
+
+                }
+            
+            }
+            return RedirectToAction("Kayit");
         }
         public IActionResult Cikis()
         {
